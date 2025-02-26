@@ -1,5 +1,6 @@
 #include "register.hxx"
 #include "../comp/compat"
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 
@@ -15,7 +16,7 @@ std::vector<Register> sstack;
 
 namespace reg {
     // impl for reggister class
-    std::uint8_t Register::editDataSection(std::uint8_t data16, std::uint32_t data32, double data64) {
+    std::uint8_t Register::editDataSection(std::int8_t data16, std::int32_t data32, double data64) {
         switch (this->currentMode) {
             case r_16:
                 this->data.bit16 = data16;
@@ -29,8 +30,100 @@ namespace reg {
             default:
                 return 1;
         }
+        this->useCycle++;
+        return 0;
+    }
+    std::uint8_t Register::editStringSection(std::string data) {
+        this->sstring = data;
+        this->strlen = data.length();
+        this->useCycle++;
+        return 0;
+    }
+    std::uint8_t Register::editPtrSection(void* ptr) {
+        if (ptr == nullptr || ptr == NULL) return 1;
+        this->ptr = ptr;
+        this->useCycle++;
+        return 0;
+    }
+    std::uint8_t Register::editSFlagSection(statusFlag_t data) {
+        this->statFlags = data;
+        this->useCycle++;
+        return 0;
+    }
+    std::uint8_t Register::editCurrentMode(rmode_t mode) {
+        this->currentMode = mode;
+        this->useCycle++;
+        return 0;
+    }
+    std::uint8_t Register::init() {
+        this->currentMode = r_16;
+        this->data.bit16 = 0;
+        this->ptr = nullptr;
+        this->sstring = "";
+        this->strlen = 0;
+        this->useCycle = 1;
+
+        this->statFlags.if_equal = false;
+        this->statFlags.if_zero = false;
+        this->statFlags.if_not_equal = false;
+        this->statFlags.if_not_zero = false;
+        this->statFlags.if_greater = false;
+        this->statFlags.if_not_less_or_equal = false;
+        this->statFlags.if_greater_or_equal = false;
+        this->statFlags.if_not_less = false;
+        this->statFlags.if_less = false;
+        this->statFlags.if_not_greater_or_equal = false;
+        this->statFlags.if_less_or_equal = false;
+        this->statFlags.if_not_greater = false;
+
+        return 0;
+    }
+    std::uint8_t Register::deinit() {
+        this->currentMode = r_16;
+        this->data.bit16 = 0;
+        this->ptr = nullptr;
+        this->sstring = "";
+        this->strlen = 0;
+
+        this->statFlags.if_equal = false;
+        this->statFlags.if_zero = false;
+        this->statFlags.if_not_equal = false;
+        this->statFlags.if_not_zero = false;
+        this->statFlags.if_greater = false;
+        this->statFlags.if_not_less_or_equal = false;
+        this->statFlags.if_greater_or_equal = false;
+        this->statFlags.if_not_less = false;
+        this->statFlags.if_less = false;
+        this->statFlags.if_not_greater_or_equal = false;
+        this->statFlags.if_less_or_equal = false;
+        this->statFlags.if_not_greater = false;
+
         return 0;
     }
 
+    rdata_t Register::getData() {
+        this->useCycle++;
+        return this->data;
+    }
+    std::string Register::getString() {
+        this->useCycle++;
+        return this->sstring;
+    }
+    void* Register::getPtr() {
+        this->useCycle++;
+        return this->ptr;
+    }
+    std::uint16_t Register::getStrlen() {
+        this->useCycle++;
+        return this->strlen;
+    }
+    rmode_t Register::getCurrentMode() {
+        this->useCycle++;
+        return this->currentMode;
+    }
+    statusFlag_t Register::getStatFlags() {
+        this->useCycle++;
+        return this->statFlags;
+    }
 
 }

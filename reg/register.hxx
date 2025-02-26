@@ -42,19 +42,26 @@ class Register {
 public:
   std::uint8_t init();
   std::uint8_t deinit();
-  std::uint8_t editDataSection(std::uint8_t data16, std::uint32_t data32, double data64);
-  std::uint8_t editStringSection();
-  std::uint8_t editPtrSection();
-  std::uint8_t editSFlagSection();
-  std::uint8_t editEtcSection();
-  std::uint8_t reset();
+  std::uint8_t editDataSection(std::int8_t data16, std::int32_t data32, double data64);
+  std::uint8_t editStringSection(std::string data);
+  std::uint8_t editPtrSection(void* ptr);
+  std::uint8_t editSFlagSection(statusFlag_t data);
+  std::uint8_t editCurrentMode(rmode_t mode);
+
+  // getting the data
+  rdata_t getData();
+  std::string getString();
+  void* getPtr();
+  std::uint16_t getStrlen();
+  rmode_t getCurrentMode();
+  statusFlag_t getStatFlags();
 
 private:
   rdata_t data; 
   std::string sstring;
   void* ptr;
   std::uint16_t strlen;
-  std::uint16_t useCycle;
+  std::uint32_t useCycle;
   rmode_t currentMode;
   statusFlag_t statFlags;
 };
