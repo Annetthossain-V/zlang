@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-CXXFLAGS="-O2 -c -Dlinux -Dbuild -std=c++17 -fPIC -Wno-shift-count-overflow -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs -Wpointer-arith"
+CXXFLAGS="-O2 -c -Dlinux -std=c++17 -fPIC -Wall -Wextra -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs"
 LDFLAGS=" -lreadline "
 CXX="g++"
 
@@ -11,13 +11,6 @@ CXX="g++"
 # blue = [34m
 # cyan = [36m
 
-export DEBUG="1"
-if [[ "$DEBUG" == "1" ]]; then
-  CXXFLAGS+=" -g"
-  CXXFLAGS+=" -Ddebug"
-  CXXFLAGS+=" -Wextra"
-  CXXFLAGS+=" -Wall"
-fi
 
 # compile
 

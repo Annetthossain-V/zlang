@@ -11,7 +11,6 @@ typedef enum {
   r_16,
   r_32,
   r_64,
-  r_128,
   r_string,
   r_nill,
   
@@ -38,33 +37,26 @@ typedef union {
   std::double_t bit64; // 64 bit mode (float)
 } rdata_t;
 
-typedef struct {
-   rmode_t mode; // register mode
-   rdata_t data; // data section
-   std::string sstring; // registers string data section
-   void* ptr; // register's pointer section
-   std::uint16_t strlen; // sstring's length
-   statusFlag_t statFlags; // status flags
-   bool interrupt; // interrupts allow status
-     
-} reg_t;
-
-
 
 class Register {
 public:
-  std::uint8_t init(reg::rmode_t mode);
-  std::uint8_t deinit(reg::rmode_t mode);
-  std::uint8_t editDataSection();
+  std::uint8_t init();
+  std::uint8_t deinit();
+  std::uint8_t editDataSection(std::uint8_t data16, std::uint32_t data32, double data64);
   std::uint8_t editStringSection();
   std::uint8_t editPtrSection();
   std::uint8_t editSFlagSection();
-  std::uint8_t editEtcSection(bool *interrupt, rmode_t* mode);
+  std::uint8_t editEtcSection();
   std::uint8_t reset();
 
 private:
-  reg_t data;
+  rdata_t data; 
+  std::string sstring;
+  void* ptr;
+  std::uint16_t strlen;
   std::uint16_t useCycle;
+  rmode_t currentMode;
+  statusFlag_t statFlags;
 };
 
 

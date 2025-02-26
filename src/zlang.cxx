@@ -20,9 +20,16 @@
 
 std::uint8_t cli();
 std::uint8_t fileReader(std::string name, std::string function);
+void lineProcessor(std::string& line);
 
 int main(int argc, char** argv) {
-  const char* Version = "Version: 0.1rc6, Compiled on Feb 24 2024";
+  std::string Version = "Version: 0.1rc6, ";
+  #ifdef linux 
+    Version.append("linux");
+  #endif
+  #ifdef lite
+    Version.append("Lite");
+  #endif
 
   std::uint8_t status = 1;
   if (argc < 2)
@@ -55,7 +62,7 @@ std::uint8_t cli() {
       if (inputStr == "") { free(input); continue; }
       if (inputStr == "exit()") { free(input); break; }
 
-      std::cout << input << std::endl;
+      lineProcessor(inputStr);
 
       free(input);
     }
@@ -69,7 +76,8 @@ std::uint8_t cli() {
       if (inputStr == "") { free(input); continue; }
       if (inputStr == "exit()") { free(input); break; }
 
-      std::cout << input << std::endl;
+      lineProcessor(inputStr);
+
       free(input);
     }
   #endif
@@ -89,13 +97,17 @@ std::uint8_t fileReader(std::string name, std::string function) {
   }
 
   std::string line;
-  std::string fileContent;
   while (std::getline(file, line)) {
-    // Process the line
-    fileContent.append(line);
-    fileContent.append("\n");
+    if (line == "") continue;
+    lineProcessor(line);
   }
-  std::cout << fileContent << std::endl;
+
   file.close();
   return 0;
+}
+
+
+void lineProcessor(std::string& line) {
+  std::cout << line << std::endl;
+  return;
 }

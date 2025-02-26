@@ -7,7 +7,6 @@
 
 typedef struct {
     instruction_t instruction;
-    std::uint8_t argCount;
-    std::vector<std::string> arguments;
+    std::uint8_t argcCount;
     
 } basicParse_t;
