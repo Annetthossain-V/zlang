@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-CXXFLAGS="-O2 -c -Dlinux -std=c++17 -fPIC -Wall -Wextra -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs"
+CXXFLAGS="-O0 -g -c -Dlinux -std=c++17 -fPIC -Wall -Wextra -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs"
 LDFLAGS=" -lreadline "
 CXX="g++"
 

@@ -3,7 +3,10 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+
 #include "export.hxx"
+#include "../comp/compat"
+#include "../reg/register.hxx"
 
 
 namespace runtime {
@@ -14,9 +17,20 @@ namespace runtime {
     return 1;
   }
 
-  runtime::void_t exitA(std::uint8_t code) {
+  void_t exitA(std::uint8_t code) {
     // deinit stuff
     exit(code);
-  }  
+  }
+
+  std::uint8_t initRegisters() {
+
+    for (std::uint16_t i = 0; i < REG_SIZE; ++i) {
+      std::uint8_t result = reg::RegX[i].init();
+      if (result == 1) 
+        return 1;
+    }
+    return 0;
+
+  }
 
 }  

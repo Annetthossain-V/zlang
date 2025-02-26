@@ -10,7 +10,7 @@
 #ifdef lite
     #ifdef linux
         #undef linux
-        // #error "lite is not compatible with linux"
+        #error "lite is not compatible with linux"
     #endif
 
     #define REG_SIZE 16

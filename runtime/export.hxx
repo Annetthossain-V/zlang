@@ -13,4 +13,6 @@ namespace runtime {
   
   std::uint8_t panic(std::string msg);
   runtime::void_t exitA(std::uint8_t code);
+
+  std::uint8_t initRegisters();
 }

@@ -6,7 +6,7 @@
 
 namespace parser {
 
-    std::vector<std::string> StringSplitter(std::string str) {
+    std::vector<std::string> StringSplitter(std::string& str) {
         std::vector<std::string> result;
         std::stringstream iss(str);
         std::string token;
@@ -17,6 +17,9 @@ namespace parser {
         return result;
     }
 
-    basicParse_t tokenizeBasic(std::vector<std::string> tokens);
+    basicParse_t tokenizeBasic(std::vector<std::string>& tokens) {
+        basicParse_t RetVal;
+        
+    }
 
 }  // namespace parser

@@ -1,13 +1,11 @@
-#ifdef lite 
-  #undef linux
-#endif
-
+// #include "../comp/compat"
 
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include "../runtime/export.hxx"
 #include <print>
+#include <vector>
 
 #ifdef linux
 #include <readline/readline.h>
@@ -18,12 +16,17 @@
 #include <sys/types.h>
 #include <fstream>
 
+#include "../parser/parserEssentials.hxx"
+
+bool jmp = false;
+std::string function = "";
+
 std::uint8_t cli();
 std::uint8_t fileReader(std::string name, std::string function);
 void lineProcessor(std::string& line);
 
 int main(int argc, char** argv) {
-  std::string Version = "Version: 0.1rc6, ";
+  std::string Version = "Version: 0.1.rc7, ";
   #ifdef linux 
     Version.append("linux");
   #endif
@@ -31,14 +34,17 @@ int main(int argc, char** argv) {
     Version.append("Lite");
   #endif
 
+  runtime::initRegisters();
+
   std::uint8_t status = 1;
   if (argc < 2)
     status = cli();
   else if (argc == 2 && (std::string)argv[1] == "--version")
   {  std::cout << Version << std::endl; runtime::exitA(0); }
   else if (argc == 2)
-    status = fileReader(argv[1], "");
+  {  status = fileReader(argv[1], function); while (jmp == true) { fileReader(argv[1], function); }}
 
+  
 
   runtime::exitA(status);
   while (true) {} // halt
@@ -95,10 +101,26 @@ std::uint8_t fileReader(std::string name, std::string function) {
     std::cerr << "Error opening file: " << name << std::endl;
     return 1;
   }
-
+  bool functionGotten = false;
   std::string line;
   while (std::getline(file, line)) {
     if (line == "") continue;
+    
+    if (functionGotten == false) {
+      if (line == function) {
+        functionGotten = true;
+      }
+      continue;
+    }
+
+    if (functionGotten == true && line.find(":") != std::string::npos) {
+      return 0;
+    }
+
+    if (jmp == true) {
+      return 0;
+    }
+
     lineProcessor(line);
   }
 
@@ -109,5 +131,9 @@ std::uint8_t fileReader(std::string name, std::string function) {
 
 void lineProcessor(std::string& line) {
   std::cout << line << std::endl;
+  std::vector<std::string> lineSplit = parser::StringSplitter(line);
+  
+
+
   return;
 }
