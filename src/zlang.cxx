@@ -50,7 +50,6 @@ int main(int argc, char** argv) {
   }
 
   
-
   runtime::exitA(status);
   while (true) {} // halt
 
@@ -139,8 +138,9 @@ std::uint8_t fileReader(std::string name, std::string& function) {
 void lineProcessor(std::string& line) {
   std::cout << line << std::endl;
   std::vector<std::string> lineSplit = parser::StringSplitter(line);
-  
-  
+  parser::basicParse_t tokens = parser::tokenizeBasic(lineSplit);
+
+  std::cout << lineSplit.size() << std::endl;
 
 
   return;

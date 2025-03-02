@@ -1,5 +1,6 @@
 #include <cstdint>
 #include <string>
+#include "../parser/parserEssentials.hxx"
 
 namespace runtime {
   typedef void void_t;
@@ -15,4 +16,5 @@ namespace runtime {
   runtime::void_t exitA(std::uint8_t code);
 
   std::uint8_t initRegisters();
+  bool executor(parser::basicParse_t& tokens);
 }

@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "parserStructure.hxx"
+#include "parserEnum.hxx"
 
 namespace parser {
 

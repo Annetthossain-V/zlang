@@ -1,8 +1,12 @@
 #pragma once
 
-typedef enum {
-    mov,
-    statreg,
-    statstack,
+namespace parser {
     
-} instruction_t;
+    typedef enum {
+        mov,
+        statreg,
+        statstack,
+    
+    } instruction_t;
+
+}
