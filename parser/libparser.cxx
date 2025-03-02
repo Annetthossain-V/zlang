@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include "parserEnum.hxx"
 #include "parserStructure.hxx"
 
 
@@ -19,7 +20,10 @@ namespace parser {
 
     basicParse_t tokenizeBasic(std::vector<std::string>& tokens) {
         basicParse_t RetVal;
-        
+
+        RetVal.instruction = mov;
+
+        return RetVal;
     }
 
 }  // namespace parser

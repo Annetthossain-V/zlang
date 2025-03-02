@@ -1,7 +1,7 @@
 #! /usr/bin/bash
 
-CXXFLAGS="-O0 -g -c -Dlinux -std=c++17 -fPIC -Wall -Wextra -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs"
-LDFLAGS=" -lreadline "
+CXXFLAGS="-O0 -march=x86-64-v2 -mtune=intel -g -c -Dlinux -std=c++17 -fPIC -Wall -Wextra -Wno-unused-variable -Wno-unused-value -Wno-unused-function -Wno-unused-parameter -Wno-unused-but-set-variable -Wno-unused-local-typedefs"
+LDFLAGS=" -lreadline -lm -lncursesw " # -static
 CXX="g++"
 
 # green = [32m

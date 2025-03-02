@@ -19,10 +19,10 @@
 #include "../parser/parserEssentials.hxx"
 
 bool jmp = false;
-std::string function = "";
+static std::string function = "main:";
 
 std::uint8_t cli();
-std::uint8_t fileReader(std::string name, std::string function);
+std::uint8_t fileReader(std::string name, std::string& function);
 void lineProcessor(std::string& line);
 
 int main(int argc, char** argv) {
@@ -41,8 +41,13 @@ int main(int argc, char** argv) {
     status = cli();
   else if (argc == 2 && (std::string)argv[1] == "--version")
   {  std::cout << Version << std::endl; runtime::exitA(0); }
-  else if (argc == 2)
-  {  status = fileReader(argv[1], function); while (jmp == true) { fileReader(argv[1], function); }}
+  else if (argc == 2) {
+    status = fileReader(argv[1], function); 
+    while (jmp == true) { 
+      jmp = false; 
+      status = fileReader(argv[1], function); 
+    } 
+  }
 
   
 
@@ -61,7 +66,8 @@ std::uint8_t cli() {
     using_history();
 
     while (true) {
-      input = readline("zlang> ");
+      input = readline("zlang$ ");
+      if (input == nullptr) { continue; }
       add_history(input);
       std::string inputStr(input);
 
@@ -91,10 +97,7 @@ std::uint8_t cli() {
   return 0;
 }
 
-std::uint8_t fileReader(std::string name, std::string function) {
-  if (function == "")
-    function = "main:";
-
+std::uint8_t fileReader(std::string name, std::string& function) {
 
   std::ifstream file(name);
   if (!file.is_open()) {
@@ -109,6 +112,7 @@ std::uint8_t fileReader(std::string name, std::string function) {
     if (functionGotten == false) {
       if (line == function) {
         functionGotten = true;
+
       }
       continue;
     }
@@ -117,11 +121,14 @@ std::uint8_t fileReader(std::string name, std::string function) {
       return 0;
     }
 
+    
+    lineProcessor(line);
+
     if (jmp == true) {
+      file.close();
       return 0;
     }
-
-    lineProcessor(line);
+    
   }
 
   file.close();
@@ -132,6 +139,7 @@ std::uint8_t fileReader(std::string name, std::string function) {
 void lineProcessor(std::string& line) {
   std::cout << line << std::endl;
   std::vector<std::string> lineSplit = parser::StringSplitter(line);
+  
   
 
 
