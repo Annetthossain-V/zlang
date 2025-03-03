@@ -14,8 +14,6 @@ namespace runtime {
 
   std::uint8_t panic(std::string msg) {
     std::cerr << "\033[0;31mProcess Panicked: " << msg << "\033[0m" << std::endl;
-
-    exitA(1);
     #ifdef linux
       #ifdef __x86_64__
         __asm__(".intel_syntax noprefix");
@@ -24,8 +22,14 @@ namespace runtime {
         __asm__("add rdi, 2");
         __asm__("syscall");
         __asm__(".att_syntax");
+      
+      #else
+        exit(1);
       #endif
+    #else
+      exit(1);
     #endif
+    
     return 1;
   }
 
@@ -55,6 +59,7 @@ namespace runtime {
       if (result == 1) 
         return 1;
     }
+    reg::sstack.push_back(reg::RegX[0]);
     return 0;
 
   }
@@ -63,6 +68,14 @@ namespace runtime {
     
     if (tokens.instruction == parser::statreg) {
       instruction::statreg(tokens.regIndex[0]);
+    } else if (tokens.instruction == parser::statstack) {
+      instruction::statstack(tokens.regIndex[0]);
+    } else if (tokens.instruction == parser::hlt) {
+      instruction::halt();
+    }
+    
+    else {
+      panic("Invalid Instruction");
     }
 
     return true;

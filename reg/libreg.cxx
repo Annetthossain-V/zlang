@@ -39,12 +39,7 @@ namespace reg {
         this->useCycle++;
         return 0;
     }
-    std::uint8_t Register::editPtrSection(void* ptr) {
-        if (ptr == nullptr || ptr == NULL) return 1;
-        this->ptr = ptr;
-        this->useCycle++;
-        return 0;
-    }
+    
     std::uint8_t Register::editSFlagSection(statusFlag_t data) {
         this->statFlags = data;
         this->useCycle++;
@@ -58,7 +53,6 @@ namespace reg {
     std::uint8_t Register::init() {
         this->currentMode = r_16;
         this->data.bit16 = 0;
-        this->ptr = nullptr;
         this->sstring = "";
         this->strlen = 0;
         this->useCycle = 1;
@@ -81,7 +75,6 @@ namespace reg {
     std::uint8_t Register::deinit() {
         this->currentMode = r_16;
         this->data.bit16 = 0;
-        this->ptr = nullptr;
         this->sstring = "";
         this->strlen = 0;
 
@@ -108,10 +101,6 @@ namespace reg {
     std::string Register::getString() {
         this->useCycle++;
         return this->sstring;
-    }
-    void* Register::getPtr() {
-        this->useCycle++;
-        return this->ptr;
     }
     std::uint16_t Register::getStrlen() {
         this->useCycle++;

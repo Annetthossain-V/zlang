@@ -25,8 +25,11 @@ std::uint8_t cli();
 std::uint8_t fileReader(std::string name, std::string& function);
 void lineProcessor(std::string& line);
 
+// The Limit Is Only Your Imagination
+
+// convention args=(x2 - x14) ret=(x1)
 int main(int argc, char** argv) {
-  std::string Version = "Version: 0.2.0, ";
+  std::string Version = "Version: 0.2.0, Code Name: Start, Target: ";
   #ifdef linux 
     Version.append("linux");
   #endif
@@ -136,11 +139,10 @@ std::uint8_t fileReader(std::string name, std::string& function) {
 
 
 void lineProcessor(std::string& line) {
-  std::cout << line << std::endl;
   std::vector<std::string> lineSplit = parser::StringSplitter(line);
   parser::basicParse_t tokens = parser::tokenizeBasic(lineSplit);
 
-  std::cout << lineSplit.size() << std::endl;
+  runtime::executor(tokens);
 
 
   return;

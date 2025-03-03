@@ -37,6 +37,24 @@ namespace parser {
             RetVal.argcCount = 1;
             RetVal.regIndex[0] = RIndex;
             
+        } else if (tokens[0] == "statstack") {
+            if (tokens.size() != 2) runtime::panic("Invalid Number Of Tokens");
+            std::uint16_t sIndex = std::stoi(tokens[1]);
+        
+
+            RetVal.instruction = statstack;
+            RetVal.argcCount = 1;
+            RetVal.regIndex[0] = sIndex;
+
+        } else if (tokens[0] == "hlt") {
+            if (tokens.size() != 1) runtime::panic("Invalid Number Of Tokens");
+
+            RetVal.instruction = hlt;
+            RetVal.argcCount = 0;
+        }
+
+        else {
+            runtime::panic("Invalid Instruction");
         }
 
 

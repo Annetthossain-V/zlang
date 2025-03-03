@@ -6,6 +6,7 @@ namespace parser {
         mov,
         statreg,
         statstack,
+        hlt,
     
     } instruction_t;
 

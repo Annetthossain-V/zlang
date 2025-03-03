@@ -12,6 +12,7 @@ typedef enum {
   r_32,
   r_64,
   r_string,
+  r_pointer,
   r_nill,
   
 } rmode_t;
@@ -35,6 +36,7 @@ typedef union {
   std::int16_t bit16; // 16 bit mode (low mode)
   std::int32_t bit32; // 32 bit mode (default)
   std::double_t bit64; // 64 bit mode (float)
+  void* ptr; // pointer mode
 } rdata_t;
 
 
@@ -51,7 +53,6 @@ public:
   // getting the data
   rdata_t getData();
   std::string getString();
-  void* getPtr();
   std::uint16_t getStrlen();
   rmode_t getCurrentMode();
   statusFlag_t getStatFlags();
@@ -59,7 +60,6 @@ public:
 private:
   rdata_t data; 
   std::string sstring;
-  void* ptr;
   std::uint16_t strlen;
   std::uint32_t useCycle;
   rmode_t currentMode;
