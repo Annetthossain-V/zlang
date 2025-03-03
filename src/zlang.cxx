@@ -26,7 +26,7 @@ std::uint8_t fileReader(std::string name, std::string& function);
 void lineProcessor(std::string& line);
 
 int main(int argc, char** argv) {
-  std::string Version = "Version: 0.1.rc7, ";
+  std::string Version = "Version: 0.2.0, ";
   #ifdef linux 
     Version.append("linux");
   #endif
