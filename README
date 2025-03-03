@@ -1,0 +1,4 @@
+# ASM Like Interpreted Language
+This language is meant to be like assembly but easier.
+The language uses registers (x0 to x16...).
+the instructions are similior to x86
