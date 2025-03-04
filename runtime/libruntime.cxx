@@ -72,6 +72,8 @@ namespace runtime {
       instruction::statstack(tokens.regIndex[0]);
     } else if (tokens.instruction == parser::hlt) {
       instruction::halt();
+    } else if (tokens.instruction == parser::mov)  {
+      instruction::mov();
     }
     
     else {

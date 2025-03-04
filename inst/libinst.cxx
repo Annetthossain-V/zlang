@@ -34,19 +34,6 @@ namespace instruction {
                 break;
         }
         std::cout << "Current Mode: " << currentMode << '\n';
-        std::cout << "if_equal: " << reg::RegX[Rindex].getStatFlags().if_equal << '\n';
-        std::cout << "if_zero: " << reg::RegX[Rindex].getStatFlags().if_zero << '\n';
-        std::cout << "if_not_equal: " << reg::RegX[Rindex].getStatFlags().if_not_equal << '\n';
-        std::cout << "if_not_zero: " << reg::RegX[Rindex].getStatFlags().if_not_zero << '\n';
-        std::cout << "if_greater: " << reg::RegX[Rindex].getStatFlags().if_greater << '\n';
-        std::cout << "if_not_less_or_equal: " << reg::RegX[Rindex].getStatFlags().if_not_less_or_equal << '\n';
-        std::cout << "if_greater_or_equal: " << reg::RegX[Rindex].getStatFlags().if_greater_or_equal << '\n';
-        std::cout << "if_not_less: " << reg::RegX[Rindex].getStatFlags().if_not_less << '\n';
-        std::cout << "if_less: " << reg::RegX[Rindex].getStatFlags().if_less << std::endl;
-        std::cout << "if_not_greater_or_equal: " << reg::RegX[Rindex].getStatFlags().if_not_greater_or_equal << '\n';
-        std::cout << "if_less_or_equal: " << reg::RegX[Rindex].getStatFlags().if_less_or_equal << '\n';
-        std::cout << "if_not_greater: " << reg::RegX[Rindex].getStatFlags().if_not_greater << std::endl;
-
         return;
     }
     void statstack(std::uint16_t sIndex) {
@@ -81,18 +68,6 @@ namespace instruction {
                 break;
         }
         std::cout << "Current Mode: " << currentMode << '\n';
-        std::cout << "if_equal: " << regi.getStatFlags().if_equal << '\n';
-        std::cout << "if_zero: " << regi.getStatFlags().if_zero << '\n';
-        std::cout << "if_not_equal: " << regi.getStatFlags().if_not_equal << '\n';
-        std::cout << "if_not_zero: " << regi.getStatFlags().if_not_zero << '\n';
-        std::cout << "if_greater: " << regi.getStatFlags().if_greater << '\n';
-        std::cout << "if_not_less_or_equal: " << regi.getStatFlags().if_not_less_or_equal << '\n';
-        std::cout << "if_greater_or_equal: " << regi.getStatFlags().if_greater_or_equal << '\n';
-        std::cout << "if_not_less: " << regi.getStatFlags().if_not_less << '\n';
-        std::cout << "if_less: " << regi.getStatFlags().if_less << std::endl;
-        std::cout << "if_not_greater_or_equal: " << regi.getStatFlags().if_not_greater_or_equal << '\n';
-        std::cout << "if_less_or_equal: " << regi.getStatFlags().if_less_or_equal << '\n';
-        std::cout << "if_not_greater: " << regi.getStatFlags().if_not_greater << std::endl;
 
     }
     void halt() {
@@ -102,11 +77,18 @@ namespace instruction {
             __asm__("nop");
             __asm__("nop");
             __asm__("jmp looplz");
+            __asm__("hlt");
             __asm__(".att_syntax");
             
         #else 
             while (true) {}
         #endif
 
+    }
+    void mov() {
+        __asm__(".intel_syntax noprefix");
+        __asm__("cli");
+        __asm__("hlt");
+        __asm__(".att_syntax");
     }
 }

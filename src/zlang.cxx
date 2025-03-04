@@ -17,6 +17,7 @@
 #include <fstream>
 
 #include "../parser/parserEssentials.hxx"
+#include "../comp/config.hxx"
 
 bool jmp = false;
 static std::string function = "main:";
@@ -29,7 +30,7 @@ void lineProcessor(std::string& line);
 
 // convention args=(x2 - x14) ret=(x1)
 int main(int argc, char** argv) {
-  std::string Version = "Version: 0.2.0, Code Name: Start, Target: ";
+  std::string Version = "Version: 0.2.rc1, Code Name: Nova, Target: ";
   #ifdef linux 
     Version.append("linux");
   #endif
@@ -38,6 +39,8 @@ int main(int argc, char** argv) {
   #endif
 
   runtime::initRegisters();
+  config::Conf.init();
+
 
   std::uint8_t status = 1;
   if (argc < 2)

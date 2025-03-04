@@ -51,6 +51,11 @@ namespace parser {
 
             RetVal.instruction = hlt;
             RetVal.argcCount = 0;
+        } else if (tokens[0] == "mov") {
+
+
+            RetVal.instruction = mov;
+            
         }
 
         else {

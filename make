@@ -40,12 +40,12 @@ $CXX inst/libinst.cxx $CXXFLAGS
 
 printf "\x1b[32mCompiling comp\n\x1b[0m"
 $CXX comp/libcomp.cxx $CXXFLAGS
-
+$CXX comp/config.cxx $CXXFLAGS
 
 
 # link
 printf "\x1b[36mLinking...\n\x1b[0m"
-$CXX zlang.o libruntime.o libreg.o libvirt.o libparser.o libobject.o libinterrupt.o libinst.o libcomp.o -o zlang $LDFLAGS
+$CXX zlang.o libruntime.o libreg.o libvirt.o libparser.o libobject.o libinterrupt.o libinst.o libcomp.o config.o -o zlang $LDFLAGS
 
 
 # clean

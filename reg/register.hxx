@@ -17,20 +17,6 @@ typedef enum {
   
 } rmode_t;
 
-typedef struct {
-  bool if_equal;
-  bool if_zero;
-  bool if_not_equal;
-  bool if_not_zero;
-  bool if_greater;
-  bool if_not_less_or_equal;
-  bool if_greater_or_equal;
-  bool if_not_less;
-  bool if_less;
-  bool if_not_greater_or_equal;
-  bool if_less_or_equal;
-  bool if_not_greater;
-} statusFlag_t;
 
 typedef union {
   std::int16_t bit16; // 16 bit mode (low mode)
@@ -47,7 +33,6 @@ public:
   std::uint8_t editDataSection(std::int8_t data16, std::int32_t data32, double data64);
   std::uint8_t editStringSection(std::string data);
   std::uint8_t editPtrSection(void* ptr);
-  std::uint8_t editSFlagSection(statusFlag_t data);
   std::uint8_t editCurrentMode(rmode_t mode);
 
   // getting the data
@@ -55,7 +40,6 @@ public:
   std::string getString();
   std::uint16_t getStrlen();
   rmode_t getCurrentMode();
-  statusFlag_t getStatFlags();
 
 private:
   rdata_t data; 
@@ -63,7 +47,6 @@ private:
   std::uint16_t strlen;
   std::uint32_t useCycle;
   rmode_t currentMode;
-  statusFlag_t statFlags;
 };
 
 

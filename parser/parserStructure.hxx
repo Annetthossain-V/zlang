@@ -11,6 +11,7 @@ namespace parser {
         instruction_t instruction;
         std::uint8_t argcCount;
         std::uint16_t regIndex[3];
+        bool config1;
     
     } basicParse_t;
 

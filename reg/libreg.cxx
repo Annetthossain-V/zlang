@@ -40,11 +40,6 @@ namespace reg {
         return 0;
     }
     
-    std::uint8_t Register::editSFlagSection(statusFlag_t data) {
-        this->statFlags = data;
-        this->useCycle++;
-        return 0;
-    }
     std::uint8_t Register::editCurrentMode(rmode_t mode) {
         this->currentMode = mode;
         this->useCycle++;
@@ -57,18 +52,7 @@ namespace reg {
         this->strlen = 0;
         this->useCycle = 1;
 
-        this->statFlags.if_equal = false;
-        this->statFlags.if_zero = false;
-        this->statFlags.if_not_equal = false;
-        this->statFlags.if_not_zero = false;
-        this->statFlags.if_greater = false;
-        this->statFlags.if_not_less_or_equal = false;
-        this->statFlags.if_greater_or_equal = false;
-        this->statFlags.if_not_less = false;
-        this->statFlags.if_less = false;
-        this->statFlags.if_not_greater_or_equal = false;
-        this->statFlags.if_less_or_equal = false;
-        this->statFlags.if_not_greater = false;
+
 
         return 0;
     }
@@ -77,19 +61,6 @@ namespace reg {
         this->data.bit16 = 0;
         this->sstring = "";
         this->strlen = 0;
-
-        this->statFlags.if_equal = false;
-        this->statFlags.if_zero = false;
-        this->statFlags.if_not_equal = false;
-        this->statFlags.if_not_zero = false;
-        this->statFlags.if_greater = false;
-        this->statFlags.if_not_less_or_equal = false;
-        this->statFlags.if_greater_or_equal = false;
-        this->statFlags.if_not_less = false;
-        this->statFlags.if_less = false;
-        this->statFlags.if_not_greater_or_equal = false;
-        this->statFlags.if_less_or_equal = false;
-        this->statFlags.if_not_greater = false;
 
         return 0;
     }
@@ -110,9 +81,4 @@ namespace reg {
         this->useCycle++;
         return this->currentMode;
     }
-    statusFlag_t Register::getStatFlags() {
-        this->useCycle++;
-        return this->statFlags;
-    }
-
 }
