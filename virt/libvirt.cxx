@@ -9,8 +9,10 @@ namespace virtualSpace {
         else
           return false;
     }
+    #ifdef linux
     void libloader(std::string name) {
         
     }
+    #endif
 
 }
