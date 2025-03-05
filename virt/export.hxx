@@ -6,5 +6,6 @@ namespace virtualSpace {
     #ifdef linux
     void libloader(std::string name);
     #endif
+    bool is_digit(char s);
     
 }

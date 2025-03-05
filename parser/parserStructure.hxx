@@ -12,6 +12,8 @@ namespace parser {
         std::uint8_t argcCount;
         std::uint16_t regIndex[3];
         bool config1;
+        char* str1;
+        double integer1;
     
     } basicParse_t;
 

@@ -20,7 +20,7 @@
 #include "../comp/config.hxx"
 
 bool jmp = false;
-static std::string function = "main:";
+std::string function = "main:";
 
 std::uint8_t cli();
 std::uint8_t fileReader(std::string name, std::string& function);

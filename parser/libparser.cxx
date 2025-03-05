@@ -6,6 +6,7 @@
 #include "parserEssentials.hxx"
 #include "../runtime/export.hxx"
 #include "../comp/compat"
+#include "../virt/export.hxx"
 
 namespace parser {
 
@@ -52,7 +53,25 @@ namespace parser {
             RetVal.instruction = hlt;
             RetVal.argcCount = 0;
         } else if (tokens[0] == "mov") {
+            if (tokens.size() != 3) runtime::panic("Invalid Number Of Tokens");
+            if (tokens[1].size() < 2) runtime::panic("Invalid Register Size");
+            if (tokens[1][0] != 'x') runtime::panic("Invalid Register Name");
+            if (tokens[2][0] != 'x' && virtualSpace::is_digit(tokens[2][0])) RetVal.config1 = true; //reg number
+            else if (tokens[2][0] == 'x') RetVal.config1 = false; //reg reg
+            else runtime::panic("Invalid Register Name");
+            
+            std::string RegStr = tokens[1];
+            RegStr.erase(0, 1);
+            std::uint16_t RegIndex = std::stoi(RegStr);
+            if (RegIndex > REG_SIZE) runtime::panic("Invalid Register Index");
+            if (RetVal.config1) {
 
+            } else if (!RetVal.config1) {
+                std::string RegStr = tokens[2];
+                RegStr.erase(0, 1);
+                std::uint16_t RegIndex = std::stoi(RegStr);
+                if (RegIndex > REG_SIZE) runtime::panic("Invalid Register Index");
+            }
 
             RetVal.instruction = mov;
             

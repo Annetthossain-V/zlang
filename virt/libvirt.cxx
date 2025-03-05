@@ -14,5 +14,11 @@ namespace virtualSpace {
         
     }
     #endif
+    bool is_digit(char s) {
+        if (s >= '0' && s <= '9')
+            return true;
+        else
+            return false;
+    }
 
 }
