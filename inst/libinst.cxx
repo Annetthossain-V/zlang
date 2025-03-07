@@ -1,7 +1,5 @@
+#include "../inc.H"
 #include <cstdint>
-#include "../reg/register.hxx"
-#include <iostream>
-#include <cstdio>
 
 namespace instruction {
     void statreg(std::uint16_t Rindex) {
@@ -85,10 +83,38 @@ namespace instruction {
         #endif
 
     }
-    void mov() {
-        __asm__(".intel_syntax noprefix");
-        __asm__("cli");
-        __asm__("hlt");
-        __asm__(".att_syntax");
+    void mov(std::uint16_t Register1, std::uint16_t Register2, bool dualRegister, double IntegerContent, char* StringContent, bool RegisterString) {
+        if (RegisterString) {
+
+            if (reg::RegX[Register1].getCurrentMode() != reg::r_string) runtime::panic("mov string to non string mode register");
+
+            std::string data(StringContent);
+            reg::RegX[Register1].editStringSection(data);
+
+            return;
+        }
+        if (!dualRegister) {
+            // reg reg
+            reg::RegX[Register1] = reg::RegX[Register2];
+            return;
+        } else if (dualRegister) {
+            // reg number
+            switch (reg::RegX[Register1].getCurrentMode()) {
+                case reg::r_16:
+                    reg::RegX[Register1].editDataSection((std::int16_t) IntegerContent, 0, 0);
+                    return;
+                
+                case reg::r_32:
+                    reg::RegX[Register1].editDataSection(0, (std::int32_t) IntegerContent, 0);
+                    return;
+                
+                case reg::r_64:
+                    reg::RegX[Register1].editDataSection(0, 0, IntegerContent);
+                    return;
+                
+                default:
+                    runtime::panic("Instruction Error");
+            }
+        }
     }
 }

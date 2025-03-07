@@ -19,7 +19,7 @@ namespace runtime {
         __asm__(".intel_syntax noprefix");
         __asm__("mov rax, 60");
         __asm__("xor rdi, rdi");
-        __asm__("add rdi, 2");
+        __asm__("add rdi, 1");
         __asm__("syscall");
         __asm__(".att_syntax");
       
@@ -40,16 +40,6 @@ namespace runtime {
     }
 
     exit(code);
-    #ifdef linux
-      #ifdef __x86_64__
-        __asm__(".intel_syntax noprefix");
-        __asm__("mov rax, 60");
-        __asm__("xor rdi, rdi");
-        __asm__("add rdi, 2");
-        __asm__("syscall");
-        __asm__(".att_syntax");
-      #endif
-    #endif
   }
 
   std::uint8_t initRegisters() {
@@ -68,12 +58,18 @@ namespace runtime {
     
     if (tokens.instruction == parser::statreg) {
       instruction::statreg(tokens.regIndex[0]);
+
     } else if (tokens.instruction == parser::statstack) {
       instruction::statstack(tokens.regIndex[0]);
+
     } else if (tokens.instruction == parser::hlt) {
       instruction::halt();
+
     } else if (tokens.instruction == parser::mov)  {
-      instruction::mov();
+      instruction::mov(tokens.regIndex[0], tokens.regIndex[1], tokens.config1, tokens.integer1, tokens.str1, tokens.StrConfig);
+
+      if (tokens.StrConfig) free(tokens.str1);
+      
     }
     
     else {

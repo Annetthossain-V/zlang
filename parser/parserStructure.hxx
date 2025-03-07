@@ -14,6 +14,7 @@ namespace parser {
         bool config1;
         char* str1;
         double integer1;
+        bool StrConfig;
     
     } basicParse_t;
 

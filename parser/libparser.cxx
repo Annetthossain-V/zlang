@@ -1,27 +1,40 @@
 
 #include "../inc.H"
+#include <cstdlib>
+#include <cstring>
+#include <string>
 
 void TwoRegisterCheck(std::vector<std::string>& tokens, parser::basicParse_t& RetVal, bool& panic) {
-    if (tokens.size() != 3) panic = true;
+    RetVal.StrConfig = false;
+
+    if (tokens[2][0] == '"') RetVal.StrConfig = true;
+
+    if (tokens.size() != 3 && RetVal.StrConfig == false) panic = true;
+
     if (tokens[1].size() < 2) panic = true;
+
     if (tokens[1][0] != 'x') panic = true;
-    if (tokens[2][0] != 'x' && virtualSpace::is_digit(tokens[2][0])) RetVal.config1 = true; //reg number
+
+    else if (tokens[2][0] != 'x' && virtualSpace::is_digit(tokens[2][0])) RetVal.config1 = true; //reg number
+
     else if (tokens[2][0] == 'x') RetVal.config1 = false; //reg reg
-    else panic = true;
     
     std::string RegStr = tokens[1];
     RegStr.erase(0, 1);
     std::uint16_t RegIndex = std::stoi(RegStr);
     if (RegIndex > REG_SIZE) panic = true;
     RetVal.regIndex[0] = RegIndex;
-    if (RetVal.config1) {
 
-    } else if (!RetVal.config1) {
+    if (RetVal.config1 && !RetVal.StrConfig) {
+        RetVal.integer1 = std::stod(tokens[2]);
+    } 
+    else if (!RetVal.config1 && !RetVal.StrConfig) {
+
         std::string RegStr = tokens[2];
         RegStr.erase(0, 1);
-        std::uint16_t RegIndex = std::stoi(RegStr);
-        RetVal.regIndex[1] = RegIndex;
-        if (RegIndex > REG_SIZE) panic = true;
+        std::uint16_t Regindex = std::stoi(RegStr);
+        RetVal.regIndex[1] = Regindex;
+        if (Regindex > REG_SIZE) panic = true;
     }
 }
 
@@ -70,12 +83,37 @@ namespace parser {
 
             RetVal.instruction = hlt;
             RetVal.argcCount = 0;
+
         } else if (tokens[0] == "mov") {
             bool panic = false;
+
             std::thread t1(TwoRegisterCheck, std::ref(tokens), std::ref(RetVal), std::ref(panic));
             RetVal.instruction = mov;
             t1.join();
+
             if (panic == true) { runtime::panic("Critical Parser Error: 404"); }
+
+            if (RetVal.StrConfig) {
+
+                // the parser also handles strings
+                RetVal.str1 = (char*) malloc(2048 * 2);
+
+                std::string line;
+                for (long unsigned int i = 2; i < tokens.size(); ++i) {
+                    line.append(tokens[i]);
+                    line.append(" ");
+                }
+                line.erase(0, 1);
+                line.pop_back();
+                if (line.back() != '"') runtime::panic("String Does Not End");
+                line.pop_back();
+
+
+                std:: cout << line << std::endl;
+                
+
+                strcpy(RetVal.str1, line.c_str());
+            }
         }
 
         else {
