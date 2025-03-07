@@ -113,6 +113,7 @@ namespace parser {
                 
 
                 strcpy(RetVal.str1, line.c_str());
+                // next swi for switching mode
             }
         }
 
