@@ -1,23 +1,5 @@
-// #include "../comp/compat"
+#include "../inc.H"
 
-#include <cstdint>
-#include <cstdlib>
-#include <iostream>
-#include "../runtime/export.hxx"
-#include <print>
-#include <vector>
-
-#ifdef linux
-#include <readline/readline.h>
-#include <readline/history.h>
-#endif
-
-#include <string>
-#include <sys/types.h>
-#include <fstream>
-
-#include "../parser/parserEssentials.hxx"
-#include "../comp/config.hxx"
 
 bool jmp = false;
 std::string function = "main:";

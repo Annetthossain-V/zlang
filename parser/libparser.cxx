@@ -1,26 +1,18 @@
 
-#include <iostream>
-#include <vector>
-#include <string>
-#include <sstream>
-#include "parserEssentials.hxx"
-#include "../runtime/export.hxx"
-#include "../comp/compat"
-#include "../virt/export.hxx"
-#include "parserStructure.hxx"
+#include "../inc.H"
 
-void TwoRegisterCheck(std::vector<std::string>& tokens, parser::basicParse_t& RetVal) {
-    if (tokens.size() != 3) runtime::panic("Invalid Number Of Tokens");
-    if (tokens[1].size() < 2) runtime::panic("Invalid Register Size");
-    if (tokens[1][0] != 'x') runtime::panic("Invalid Register Name");
+void TwoRegisterCheck(std::vector<std::string>& tokens, parser::basicParse_t& RetVal, bool& panic) {
+    if (tokens.size() != 3) panic = true;
+    if (tokens[1].size() < 2) panic = true;
+    if (tokens[1][0] != 'x') panic = true;
     if (tokens[2][0] != 'x' && virtualSpace::is_digit(tokens[2][0])) RetVal.config1 = true; //reg number
     else if (tokens[2][0] == 'x') RetVal.config1 = false; //reg reg
-    else runtime::panic("Invalid Register Name");
+    else panic = true;
     
     std::string RegStr = tokens[1];
     RegStr.erase(0, 1);
     std::uint16_t RegIndex = std::stoi(RegStr);
-    if (RegIndex > REG_SIZE) runtime::panic("Invalid Register Index");
+    if (RegIndex > REG_SIZE) panic = true;
     RetVal.regIndex[0] = RegIndex;
     if (RetVal.config1) {
 
@@ -29,7 +21,7 @@ void TwoRegisterCheck(std::vector<std::string>& tokens, parser::basicParse_t& Re
         RegStr.erase(0, 1);
         std::uint16_t RegIndex = std::stoi(RegStr);
         RetVal.regIndex[1] = RegIndex;
-        if (RegIndex > REG_SIZE) runtime::panic("Invalid Register Index");
+        if (RegIndex > REG_SIZE) panic = true;
     }
 }
 
@@ -79,10 +71,11 @@ namespace parser {
             RetVal.instruction = hlt;
             RetVal.argcCount = 0;
         } else if (tokens[0] == "mov") {
-            TwoRegisterCheck(tokens, RetVal);
-            
+            bool panic = false;
+            std::thread t1(TwoRegisterCheck, std::ref(tokens), std::ref(RetVal), std::ref(panic));
             RetVal.instruction = mov;
-            
+            t1.join();
+            if (panic == true) { runtime::panic("Critical Parser Error: 404"); }
         }
 
         else {

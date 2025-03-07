@@ -1,4 +1,2 @@
 build/
 zlang
-rust/runtime/target
-rust/virt/target
