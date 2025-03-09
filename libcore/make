@@ -1,1 +1,7 @@
 #! /usr/bin/bash
+
+GXX="g++"
+
+CXXFLAGS="-O3 -march=x86-64-v2 -mtune=intel -shared"
+
+$GXX libcore.cxx $CXXFLAGS -o libzlcore.so.1
